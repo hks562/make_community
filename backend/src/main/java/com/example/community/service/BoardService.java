@@ -1,11 +1,11 @@
-package com.example.board.service;
+package com.example.community.service;
 
-import com.example.board.dto.BoardDeleteRequestDto;
-import com.example.board.dto.BoardRequestDto;
-import com.example.board.dto.BoardResponseDto;
-import com.example.board.dto.BoardUpdateRequestDto;
-import com.example.board.entity.Board;
-import com.example.board.mapper.BoardMapper;
+import com.example.community.dto.BoardDeleteRequestDto;
+import com.example.community.dto.BoardRequestDto;
+import com.example.community.dto.BoardResponseDto;
+import com.example.community.dto.BoardUpdateRequestDto;
+import com.example.community.entity.Board;
+import com.example.community.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

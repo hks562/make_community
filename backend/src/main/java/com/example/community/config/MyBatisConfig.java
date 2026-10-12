@@ -1,4 +1,4 @@
-package com.example.board.config;
+package com.example.community.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
