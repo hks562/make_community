@@ -1,7 +1,9 @@
 package com.example.board.controller;
 
+import com.example.board.dto.BoardDeleteRequestDto;
 import com.example.board.dto.BoardRequestDto;
 import com.example.board.dto.BoardResponseDto;
+import com.example.board.dto.BoardUpdateRequestDto;
 import com.example.board.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    // 1. 글 등록 API (POST /api/boards)
+    // 글 등록 API (POST /api/boards)
     @PostMapping
     public ResponseEntity<Long> createPost(@RequestBody BoardRequestDto requestDto, HttpServletRequest request) {
         String clientIp = getClientIp(request);
@@ -25,14 +27,14 @@ public class BoardController {
         return ResponseEntity.ok(savedId);
     }
 
-    // 2. 전체 글 목록 조회 API (GET /api/boards)
+    // 전체 글 목록 조회 API (GET /api/boards)
     @GetMapping
     public ResponseEntity<List<BoardResponseDto>> getAllPosts() {
         List<BoardResponseDto> posts = boardService.getAllPosts();
         return ResponseEntity.ok(posts);
     }
 
-    // 3. 단일 글 상세 조회 API (GET /api/boards/{id})
+    // 단일 글 상세 조회 API (GET /api/boards/{id})
     @GetMapping("/{id}")
     public ResponseEntity<BoardResponseDto> getPost(@PathVariable("id") Long id) {
         BoardResponseDto post = boardService.getPost(id);
@@ -46,5 +48,22 @@ public class BoardController {
             ip = request.getRemoteAddr();
         }
         return ip;
+    }
+    // 글 수정 API PUT /api/boards/{id}
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updatePost(
+            @PathVariable Long id,
+            @RequestBody BoardUpdateRequestDto requestDto) {
+        boardService.updatePost(id, requestDto);
+        return ResponseEntity.ok("게시글이 수정되었습니다.");
+    }
+
+    // 글 삭제 API DELETE /api/boards/{id}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(
+            @PathVariable Long id,
+            @RequestBody BoardDeleteRequestDto requestDto) {
+        boardService.deletePost(id, requestDto);
+        return ResponseEntity.ok("게시글이 삭제되었습니다.");
     }
 }

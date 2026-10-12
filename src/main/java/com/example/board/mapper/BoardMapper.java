@@ -11,4 +11,7 @@ public interface BoardMapper {
     void save(Board board);
     List<Board> findAll();
     Optional<Board> findById(Long id);
+
+    int update(Board board);
+    int delete(Long id);
 }
