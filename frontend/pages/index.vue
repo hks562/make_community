@@ -4,45 +4,13 @@
     <header class="header">
       <div class="title-group">
         <h2>공지 및 작업 게시판</h2>
-        <span class="sub-text">사내 작업 요청 및 공정 이슈 익명 공유 보드</span>
+        <span class="sub-text">사내 작업 요청 및 공정 이슈 공유 보드</span>
       </div>
-      <div class="stats-badge">
-        총 등록 건수: <strong>{{ boards ? boards.length : 0 }}</strong>건
+      <div class="header-actions">
+        <span class="stats-badge">총 <strong>{{ boards ? boards.length : 0 }}</strong>건</span>
+        <NuxtLink to="/boards/write" class="btn btn-primary">글쓰기</NuxtLink>
       </div>
     </header>
-
-    <!-- 신규 게시글 등록 섹션 -->
-    <section class="card form-card">
-      <div class="card-header">신규 등록</div>
-      <form @submit.prevent="createBoard" class="form-body">
-        <div class="input-row">
-          <div class="input-group">
-            <label>작성자</label>
-            <input v-model="form.nickname" type="text" placeholder="작성자명" required />
-          </div>
-          <div class="input-group">
-            <label>비밀번호</label>
-            <input v-model="form.password" type="password" placeholder="비밀번호" required />
-          </div>
-        </div>
-
-        <div class="input-group">
-          <label>제목</label>
-          <input v-model="form.title" type="text" placeholder="제목을 입력하세요" required />
-        </div>
-
-        <div class="input-group">
-          <label>내용</label>
-          <textarea v-model="form.content" rows="3" placeholder="내용을 구체적으로 작성하세요" required></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary" :disabled="isSubmitting">
-            {{ isSubmitting ? '저장 중...' : '등록' }}
-          </button>
-        </div>
-      </form>
-    </section>
 
     <!-- 게시글 목록 그리드 -->
     <section class="card table-card">
@@ -68,11 +36,12 @@
         </thead>
         <tbody>
           <tr v-for="(board, index) in boards" :key="board.id">
-            <!-- DB id 대신 전체 개수에서 인덱스를 뺀 가상 순번 출력 -->
             <td class="text-center font-mono">{{ index + 1 }}</td>
             <td>
               <NuxtLink :to="`/boards/${board.id}`" class="post-title">
                 {{ board.title }}
+                <span v-if="board.updatedAt && board.updatedAt !== board.createdAt" 
+                class="badge-edited">(수정됨)</span>
               </NuxtLink>
             </td>
             <td class="text-center">{{ board.nickname }}</td>
@@ -93,42 +62,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-
-const isSubmitting = ref(false)
-
-const form = reactive({
-  title: '',
-  content: '',
-  nickname: '',
-  password: ''
-})
-
 const { data: boards, pending, error, refresh } = await useFetch('http://localhost:8080/api/boards')
-
-const createBoard = async () => {
-  isSubmitting.value = true
-  try {
-    await $fetch('http://localhost:8080/api/boards', {
-      method: 'POST',
-      body: {
-        title: form.title,
-        content: form.content,
-        nickname: form.nickname,
-        password: form.password
-      }
-    })
-    form.title = ''
-    form.content = ''
-    form.nickname = ''
-    form.password = ''
-    await refresh()
-  } catch (err) {
-    alert('등록 실패: ' + (err.data?.message || err.message))
-  } finally {
-    isSubmitting.value = false
-  }
-}
 
 const deleteBoard = async (id) => {
   const password = prompt('삭제 비밀번호를 입력해주세요:')
@@ -176,6 +110,12 @@ const deleteBoard = async (id) => {
   display: inline-block;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .stats-badge {
   font-size: 13px;
   background-color: #f1f5f9;
@@ -207,55 +147,6 @@ const deleteBoard = async (id) => {
   align-items: center;
 }
 
-.form-body {
-  padding: 16px;
-}
-
-.input-row {
-  display: flex;
-  gap: 16px;
-}
-
-.input-group {
-  margin-bottom: 12px;
-  flex: 1;
-}
-
-.input-group label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #475569;
-  margin-bottom: 4px;
-}
-
-input, textarea {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px 10px;
-  font-size: 13px;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  outline: none;
-  background-color: #fff;
-}
-
-input:focus, textarea:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 1px #2563eb;
-}
-
-textarea {
-  resize: vertical;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
-/* 데이터 테이블 */
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -285,6 +176,14 @@ textarea {
 
 .text-center { text-align: center; }
 .text-muted { color: #64748b; }
+
+.badge-edited {
+  font-size: 13px;
+  font-weight: normal;
+  color: #94a3b8;
+  margin-left: 6px;
+  vertical-align: middle;
+}
 
 .post-title {
   color: #0f172a;
