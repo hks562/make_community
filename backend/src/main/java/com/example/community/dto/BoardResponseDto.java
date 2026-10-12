@@ -1,6 +1,6 @@
-package com.example.board.dto;
+package com.example.community.dto;
 
-import com.example.board.entity.Board;
+import com.example.community.entity.Board;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -13,6 +13,7 @@ public class BoardResponseDto {
     private String nickname;
     private String ipAddress;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public BoardResponseDto(Board board) {
         this.id = board.getId();
@@ -21,5 +22,6 @@ public class BoardResponseDto {
         this.nickname = board.getNickname();
         this.ipAddress = board.getIpAddress();
         this.createdAt = board.getCreatedAt();
+        this.updatedAt = board.getUpdatedAt();
     }
 }

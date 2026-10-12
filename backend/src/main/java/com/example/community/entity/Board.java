@@ -1,4 +1,4 @@
-package com.example.board.entity;
+package com.example.community.entity;
 
 import lombok.Getter;
 import lombok.Setter;

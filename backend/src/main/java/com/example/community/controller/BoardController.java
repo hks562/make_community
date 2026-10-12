@@ -1,10 +1,10 @@
-package com.example.board.controller;
+package com.example.community.controller;
 
-import com.example.board.dto.BoardDeleteRequestDto;
-import com.example.board.dto.BoardRequestDto;
-import com.example.board.dto.BoardResponseDto;
-import com.example.board.dto.BoardUpdateRequestDto;
-import com.example.board.service.BoardService;
+import com.example.community.dto.BoardDeleteRequestDto;
+import com.example.community.dto.BoardRequestDto;
+import com.example.community.dto.BoardResponseDto;
+import com.example.community.dto.BoardUpdateRequestDto;
+import com.example.community.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

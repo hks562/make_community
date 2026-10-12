@@ -1,6 +1,6 @@
-package com.example.board.mapper;
+package com.example.community.mapper;
 
-import com.example.board.entity.Board;
+import com.example.community.entity.Board;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
