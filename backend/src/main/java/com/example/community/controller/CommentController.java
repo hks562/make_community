@@ -40,7 +40,7 @@ public class CommentController {
         }
         dto.setIpAddress(clientIp);
 
-        commentService.createComment(boardId, dto);
+        commentService.createComment(boardId, dto, clientIp);
         return ResponseEntity.ok().build();
     }
 

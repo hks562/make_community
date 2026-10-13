@@ -4,34 +4,36 @@
 
 <mapper namespace="com.example.community.mapper.CommentMapper">
 
-    <!-- 특정 게시글의 댓글 목록 조회 (오래된 순 또는 최신순) -->
-    <select id="selectCommentsByBoardId" resultType="com.example.community.dto.CommentResponseDto">
+    <!--  댓글 등록 -->
+    <insert id="insertComment" parameterType="com.example.community.entity.Comment" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO comments (board_id, user_id, nickname, password, content, ip_address, created_at)
+        VALUES (#{boardId}, #{userId}, #{nickname}, #{password}, #{content}, #{ipAddress}, SYSDATETIME())
+    </insert>
+
+    <!--  댓글 목록 조회 -->
+    <select id="selectCommentsByBoardId" parameterType="long" resultType="com.example.community.entity.Comment">
         SELECT id,
         board_id AS boardId,
+        user_id AS userId,
         nickname,
+        password,
         content,
         ip_address AS ipAddress,
         created_at AS createdAt
         FROM comments
         WHERE board_id = #{boardId}
-        ORDER BY id ASC
+        ORDER BY created_at ASC
     </select>
 
-    <!-- 댓글 등록 -->
-    <insert id="insertComment">
-        INSERT INTO comments (board_id, nickname, password, content, ip_address, created_at)
-        VALUES (#{boardId}, #{dto.nickname}, #{dto.password}, #{dto.content}, #{dto.ipAddress}, SYSDATETIME())
-    </insert>
-
-    <!-- 삭제 검증용 비밀번호 단건 조회 -->
-    <select id="selectPasswordById" resultType="string">
+    <!-- 비밀번호 단건 조회 -->
+    <select id="selectPasswordById" parameterType="long" resultType="string">
         SELECT password
         FROM comments
         WHERE id = #{id}
     </select>
 
     <!-- 댓글 삭제 -->
-    <delete id="deleteComment">
+    <delete id="deleteComment" parameterType="long">
         DELETE FROM comments
         WHERE id = #{id}
     </delete>

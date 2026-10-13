@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Board {
     private Long id;
+    private Long userId;
     private String title;
     private String content;
     private String nickname;
