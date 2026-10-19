@@ -4,6 +4,7 @@ import com.example.community.dto.UserLoginRequestDto;
 import com.example.community.dto.UserResponseDto;
 import com.example.community.dto.UserSignupRequestDto;
 import com.example.community.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponseDto> signup(@RequestBody UserSignupRequestDto dto) {
+    public ResponseEntity<UserResponseDto> signup(@Valid @RequestBody UserSignupRequestDto dto) {
         UserResponseDto response = userService.signup(dto);
         return ResponseEntity.ok(response);
     }

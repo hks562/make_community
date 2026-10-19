@@ -25,7 +25,8 @@ public class Board {
     private LocalDateTime updatedAt;
 
     // 게시글 수정을 위한 비즈니스 메서드
-    public void update(String content) {
+/*    public void update(String content) {
         this.content = content;
     }
+*/
 }

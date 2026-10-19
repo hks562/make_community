@@ -10,4 +10,5 @@ public interface UserMapper {
     User findByUsername(@Param("username") String username);
     User findById(@Param("id") Long id);
     boolean existsByUsername(@Param("username") String username);
+    boolean existsByNickname(@Param("nickname") String nickname);
 }

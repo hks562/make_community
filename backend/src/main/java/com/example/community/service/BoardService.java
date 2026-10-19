@@ -5,6 +5,8 @@ import com.example.community.dto.BoardRequestDto;
 import com.example.community.dto.BoardResponseDto;
 import com.example.community.dto.BoardUpdateRequestDto;
 import com.example.community.entity.Board;
+import com.example.community.exception.CustomException;
+import com.example.community.exception.ErrorCode;
 import com.example.community.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class BoardService {
     //글 존재 여부
     private Board findBoardById(Long id) {
         return boardMapper.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다. id=" + id));
+                .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
     }
 
     //글 조회(전체)

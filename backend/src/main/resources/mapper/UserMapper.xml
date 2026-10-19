@@ -34,5 +34,10 @@
         FROM users
         WHERE username = #{username}
     </select>
+    <select id="existsByNickname" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM users
+        WHERE nickname = #{nickname}
+    </select>
 
 </mapper>
